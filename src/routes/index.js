@@ -6,7 +6,7 @@ const User = require("../models/users");
 const jwt = require("jsonwebtoken");
 const { JsonWebTokenError } = require("jsonwebtoken");
 
-router.get("/", (req, res) => res.send("Hello World"));
+router.get("/", (req, res) => res.send("Hello World!!asfasfasdf"));
 
 router.post("/signup", async (req, res) => {
   //async para utilizar los metodos asincronos
@@ -14,7 +14,7 @@ router.post("/signup", async (req, res) => {
   const newUser = new User({ email, password });
   await newUser.save(); //await para definir una funcion asincrona
   const token = jwt.sign({ id: newUser._id }, "secretKey");
-   console.log("Creando usuario");
+  console.log("Creating user");
   res.status(200).json({ token });
 });
 
@@ -24,7 +24,7 @@ router.post("/signin", async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) return res.status(404).send("the email doesn't exists");
   if (user.password !== password) return res.status(401).send("Wrong Password");
-  console.log("Iniciando Sesión");
+  console.log("Login");
 
   const token = jwt.sign({ _id: user._id }, "secretKey");
   return res.status(200).json({ token });
