@@ -14,6 +14,7 @@ router.post("/signup", async (req, res) => {
   const newUser = new User({ email, password });
   await newUser.save(); //await para definir una funcion asincrona
   const token = jwt.sign({ id: newUser._id }, "secretKey");
+   console.log("Creando usuario");
   res.status(200).json({ token });
 });
 
@@ -23,6 +24,7 @@ router.post("/signin", async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) return res.status(404).send("the email doesn't exists");
   if (user.password !== password) return res.status(401).send("Wrong Password");
+  console.log("Iniciando Sesión");
 
   const token = jwt.sign({ _id: user._id }, "secretKey");
   return res.status(200).json({ token });
@@ -70,6 +72,12 @@ router.get("/private/task", verifyToken, (req, res) => {
       name: "Private Task three",
       description: "Molon labe",
       date: "2021-11-17T22:39:05.2112",
+    },
+    {
+      _id: 4,
+      name: "Private Task four",
+      description: "Satex",
+      date: "2021-26-17T22:39:05.2112",
     },
   ]);
 });
